@@ -15,29 +15,29 @@ int localpid(void)
 int main(int argc, char* argv[])
 {
     uint64_t diff;
-    struct timespec clock_start, clock_end;
+    struct timespec clock_mono_start, clock_mono_end, clock_cpu_start, clock_cpu_end;
     int i;
     
     /* measure monotonic time */
-    clock_gettime(CLOCK_MONOTONIC, & clock_start); /* mark start time */
+    clock_gettime(CLOCK_MONOTONIC, & clock_mono_start); /* mark start time */
     
     sleep(1); /* do stuff */
     
-    clock_gettime(CLOCK_MONOTONIC, & clock_end); /* mark the end time */
+    clock_gettime(CLOCK_MONOTONIC, & clock_mono_end); /* mark the end time */
     
-    diff = BILLION * (clock_end.tv_sec - clock_start.tv_sec) + clock_end.tv_nsec - clock_start.tv_nsec;
+    mono_diff = BILLION * (clock_mono_end.tv_sec - clock_mono_start.tv_sec) + clock_mono_end.tv_nsec - clock_mono_start.tv_nsec;
     
-    printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) diff); /* now re-do this and measure CPU time */ /* the time spent sleeping will not count (but there is a bit of overhead */
+    printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) mono_diff); /* now re-do this and measure CPU time */ /* the time spent sleeping will not count (but there is a bit of overhead */
     
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, & clock_start); /* mark start time */
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, & clock_cpu_start); /* mark start time */
     
     sleep(1); /* do stuff */
     
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, & clock_end); /* mark the end time */
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, & clock_cpu_end); /* mark the end time */
     
-    diff = BILLION * (clock_end.tv_sec - clock_start.tv_sec) + clock_end.tv_nsec - clock_start.tv_nsec;
+    cpu_diff = BILLION * (clock_cpu_end.tv_sec - clock_cpu_start.tv_sec) + clock_cpu_end.tv_nsec - clock_cpu_start.tv_nsec;
     
-    printf("elapsed process CPU time = %llu nanoseconds\n", (long long unsigned int) diff);
+    printf("elapsed process CPU time = %llu nanoseconds\n", (long long unsigned int) cpu_diff);
     
     if(argc != 2)
     {
