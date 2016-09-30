@@ -3,86 +3,129 @@
 //  CS5239-Assignment1
 //
 //
-
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <time.h>
+void allocate_mem(double*** arr, int rows, int cols);
+void deallocate_mem(double*** arr, int n);
+void printMatrix(double** a, int rows, int cols);
+void printMatrixE(double** a, int rows, int cols);
+void multMatrixp(double **A, double **B, double **C,int r1,int c1,int r2,int c2);
+void init(double*** a, int rows,int cols);
+
+int main(int argc, char* argv[])
+{
+    
+    int ro1, co1, ro2, co2;
+    double **a, **b, **c;
+    
+    
+    
+    //ro1=10;
+    //co1=10000;
+    //ro2=10000;
+    //co2=33;
+    
+    ro1=atoi(argv[1]);
+    co1=atoi(argv[2]);
+    ro2=atoi(argv[3]);
+    co2=atoi(argv[4]);
+    
+    
+    init(&a,ro1,co1);
+    init(&b,ro2,co2);
+    allocate_mem(&c,ro1,co2);
+    
+    clock_t begin, end;
+    double time_spent;
+    begin = clock();
+    multMatrixp(a, b, c, ro1, co1, ro2, co2);
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("Elapsed time: %.2lf seconds.\n", time_spent);
+    
+    printMatrix(a,ro1,co1);
+    printMatrix(b,ro2,co2);
+    printMatrixE(c,ro1,co2);
+    
+    
+    deallocate_mem(&a,ro1);
+    deallocate_mem(&b,ro2);
+    deallocate_mem(&c,ro1);
+    
+    return 0;
+}
+
+//______________________________________________________________________________
+void allocate_mem(double*** arr, int rows, int cols)
+{
+    int i;
+    *arr = (double**)malloc(rows*sizeof(double*));
+    for( i=0; i<rows; i++)
+        (*arr)[i] = (double*)malloc(cols*sizeof(double));
+}
+
+//______________________________________________________________________________
+void deallocate_mem(double*** arr, int rows){
+    int i;
+    for (i = 0; i < rows; i++)
+        free((*arr)[i]);
+    free(*arr);
+}
+
+//______________________________________________________________________________
+
+void init(double*** a, int rows,int cols)
+{
+    int i, j;
+    
+    *a= (double**) malloc(rows*sizeof(double*));
+    for(i=0;i<rows;i++)
+        (*a)[i]=(double*)malloc(cols*sizeof(double));
+    for(i=0;i<rows;i++)
+        for(j=0;j<cols;j++)
+            (*a)[i][j] = rand()%1000;
+}
 
 
-#define BILLION  1000000000L;
-
-int main(int argc, char **argv) {
-    
-    struct timespec start, stop;
-    double accum;
-    
-    if( clock_gettime( CLOCK_REALTIME, &start) == -1 ) {
-        perror( "clock gettime" );
-        exit( EXIT_FAILURE );
-    }
-    
-    int a[10][10], b[10][10], c[10][10], i, j, k;
-    int sum = 0;
-    
-    printf("\nEnter First Matrix : \n");
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            scanf("%d", &a[i][j]);
-        }
-    }
-    
-    printf("\nEnter Second Matrix: \n");
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            scanf("%d", &b[i][j]);
-        }
-    }
-    
-    printf("The First Matrix is: \n");
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            printf(" %d ", a[i][j]);
-        }
+//______________________________________________________________________________
+void printMatrix(double** a, int rows, int cols)
+{
+    int i, j;
+    printf("Matrix[%d][%d]\n",rows,cols);
+    for(i=0;i<rows;i++){
+        for(j=0;j<cols;j++)
+            printf("%7.1lf ",a[i][j]);
         printf("\n");
     }
-    
-    printf("The Second Matrix is : \n");
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            printf(" %d ", b[i][j]);
-        }
+    printf("\n");
+}
+
+//______________________________________________________________________________
+void printMatrixE(double** a, int rows, int cols)
+{
+    int i, j;
+    printf("Matrix[%d][%d]\n",rows,cols);
+    for(i=0;i<rows;i++){
+        for(j=0;j<cols;j++)
+            printf("%9.2e ",a[i][j]);
         printf("\n");
     }
-    
-    //Multiplication Logic
-    for (i = 0; i <= 2; i++) {
-        for (j = 0; j <= 2; j++) {
-            sum = 0;
-            for (k = 0; k <= 2; k++) {
-                sum = sum + a[i][k] * b[k][j];
+    printf("\n");
+}
+
+
+//______________________________________________________________________________
+
+void multMatrixp(double **A, double **B, double **C,int ro1,int co1,int ro2,int co2)
+{
+    int i, j, k;
+    for(i = 0; i < ro1; i++) {
+        for(j = 0; j < co2; j++) {
+            C[i][j] = 0;
+            for(k = 0; k < co1; k++) {
+                C[i][j] += A[i][k] * B[k][j];
             }
-            c[i][j] = sum;
         }
     }
-    
-    printf("\nMultiplication Of Two Matrices : \n");
-    for (i = 0; i < 3; i++) {
-        for (j = 0; j < 3; j++) {
-            printf(" %d ", c[i][j]);
-        }
-        printf("\n");
-    }
-    
-    if( clock_gettime( CLOCK_REALTIME, &stop) == -1 ) {
-        perror( "clock gettime" );
-        exit( EXIT_FAILURE );
-    }
-    
-    accum = ( stop.tv_sec - start.tv_sec )
-    + ( stop.tv_nsec - start.tv_nsec )
-    / BILLION;
-    printf( "%lf\n", accum );
-    return( EXIT_SUCCESS );
-    return (0);
 }
