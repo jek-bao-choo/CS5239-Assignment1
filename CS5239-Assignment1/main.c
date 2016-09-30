@@ -35,7 +35,8 @@ int main(int argc, char* argv[])
     mm(A, B, C);
     clock_gettime(CLOCK_MONOTONIC, & clock_mono_end); /* mark the end time */
     mono_diff = BILLION * (clock_mono_end.tv_sec - clock_mono_start.tv_sec) + clock_mono_end.tv_nsec - clock_mono_start.tv_nsec;
-    printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) mono_diff); /* now re-do this and measure CPU time */ /* the time spent sleeping will not count (but there is a bit of overhead */
+    printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) mono_diff);
+    printf("elapsed time = %llu seconds\n", (long long unsigned int) mono_diff / BILLION);
     
     /* measure cpu time */
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, & clock_cpu_start); /* mark start time */
@@ -43,6 +44,7 @@ int main(int argc, char* argv[])
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, & clock_cpu_end); /* mark the end time */
     cpu_diff = BILLION * (clock_cpu_end.tv_sec - clock_cpu_start.tv_sec) + clock_cpu_end.tv_nsec - clock_cpu_start.tv_nsec;
     printf("elapsed process CPU time = %llu nanoseconds\n", (long long unsigned int) cpu_diff);
+    printf("elapsed process CPU time = %llu seconds\n", (long long unsigned int) cpu_diff / BILLION);
 
  
     
