@@ -8,25 +8,25 @@
 #include <stdlib.h>
 #include <time.h>
 
-int SIZE, NTHREADS;
-int **A, **B, **C;
+double SIZE, NTHREADS;
+double **A, **B, **C;
 
-void init(int ***Aptr, int ***Bptr)
+void init(double ***Aptr, double ***Bptr)
 {
-    int    **A; // Define a local pointer to keep rest of the code intact
-    int    **B; // Define a local pointer to keep rest of the code intact
+    double    **A; // Define a local pointer to keep rest of the code intact
+    double    **B; // Define a local pointer to keep rest of the code intact
     
     int i, j;
     
-    A = (int**)malloc(SIZE * sizeof(int *));
+    A = (double**)malloc(SIZE * sizeof(int *));
     for(i = 0; i < SIZE; i++)
         A[i] = malloc(SIZE * sizeof(int));
     
-    B = (int**)malloc(SIZE * sizeof(int *));
+    B = (double**)malloc(SIZE * sizeof(int *));
     for(i = 0; i < SIZE; i++)
         B[i] = malloc(SIZE * sizeof(int));
     
-    C = (int**)malloc(SIZE * sizeof(int *));
+    C = (double**)malloc(SIZE * sizeof(int *));
     for(i = 0; i < SIZE; i++)
         C[i] = malloc(SIZE * sizeof(int));
     
@@ -43,7 +43,7 @@ void init(int ***Aptr, int ***Bptr)
     *Bptr = B;
 }
 
-void mm(int **A, int **B, int **C)
+void mm(double **A, double **B, double **C)
 {
     int i, j, k;
     
