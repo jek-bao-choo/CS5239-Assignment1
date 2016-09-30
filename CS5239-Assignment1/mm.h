@@ -18,17 +18,17 @@ void init(double ***Aptr, double ***Bptr)
     
     int i, j;
     
-    A = (double**)malloc(SIZE * sizeof(int *));
+    A = (double**)malloc(SIZE * sizeof(double *));
     for(i = 0; i < SIZE; i++)
-        A[i] = malloc(SIZE * sizeof(int));
+        A[i] = malloc(SIZE * sizeof(double));
     
-    B = (double**)malloc(SIZE * sizeof(int *));
+    B = (double**)malloc(SIZE * sizeof(double *));
     for(i = 0; i < SIZE; i++)
-        B[i] = malloc(SIZE * sizeof(int));
+        B[i] = malloc(SIZE * sizeof(double));
     
-    C = (double**)malloc(SIZE * sizeof(int *));
+    C = (double**)malloc(SIZE * sizeof(double *));
     for(i = 0; i < SIZE; i++)
-        C[i] = malloc(SIZE * sizeof(int));
+        C[i] = malloc(SIZE * sizeof(double));
     
     srand(time(NULL));
     
