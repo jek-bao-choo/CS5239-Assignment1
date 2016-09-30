@@ -21,8 +21,6 @@ int main(int argc, char* argv[])
     /* measure monotonic time */
     clock_gettime(CLOCK_MONOTONIC, & clock_mono_start); /* mark start time */
     
-    sleep(1); /* do stuff */
-    
     clock_gettime(CLOCK_MONOTONIC, & clock_mono_end); /* mark the end time */
     
     mono_diff = BILLION * (clock_mono_end.tv_sec - clock_mono_start.tv_sec) + clock_mono_end.tv_nsec - clock_mono_start.tv_nsec;
@@ -30,8 +28,6 @@ int main(int argc, char* argv[])
     printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) mono_diff); /* now re-do this and measure CPU time */ /* the time spent sleeping will not count (but there is a bit of overhead */
     
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, & clock_cpu_start); /* mark start time */
-    
-    sleep(1); /* do stuff */
     
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, & clock_cpu_end); /* mark the end time */
     
