@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		234E78401D9DCA2D00947BE1 /* CS5239-Assignment1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "CS5239-Assignment1"; sourceTree = BUILT_PRODUCTS_DIR; };
 		234E78431D9DCA2D00947BE1 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		23C7F08B1D9E99C900BE85BC /* mm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mm.h; sourceTree = "<group>"; };
 		23DD9DC91D9DCFA300AC3A3B /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -60,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				234E78431D9DCA2D00947BE1 /* main.c */,
+				23C7F08B1D9E99C900BE85BC /* mm.h */,
 			);
 			path = "CS5239-Assignment1";
 			sourceTree = "<group>";
