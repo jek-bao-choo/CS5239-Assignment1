@@ -14,7 +14,7 @@ int localpid(void)
 
 int main(int argc, char* argv[])
 {
-    uint64_t diff;
+    uint64_t mono_diff, cpu_diff;
     struct timespec clock_mono_start, clock_mono_end, clock_cpu_start, clock_cpu_end;
     int i;
     
