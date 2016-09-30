@@ -18,23 +18,6 @@ int main(int argc, char* argv[])
     struct timespec clock_mono_start, clock_mono_end, clock_cpu_start, clock_cpu_end;
     int i;
     
-    /* measure monotonic time */
-    clock_gettime(CLOCK_MONOTONIC, & clock_mono_start); /* mark start time */
-    
-    clock_gettime(CLOCK_MONOTONIC, & clock_mono_end); /* mark the end time */
-    
-    mono_diff = BILLION * (clock_mono_end.tv_sec - clock_mono_start.tv_sec) + clock_mono_end.tv_nsec - clock_mono_start.tv_nsec;
-    
-    printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) mono_diff); /* now re-do this and measure CPU time */ /* the time spent sleeping will not count (but there is a bit of overhead */
-    
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, & clock_cpu_start); /* mark start time */
-    
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, & clock_cpu_end); /* mark the end time */
-    
-    cpu_diff = BILLION * (clock_cpu_end.tv_sec - clock_cpu_start.tv_sec) + clock_cpu_end.tv_nsec - clock_cpu_start.tv_nsec;
-    
-    printf("elapsed process CPU time = %llu nanoseconds\n", (long long unsigned int) cpu_diff);
-    
     if(argc != 2)
     {
         printf("Usage: %s <size_of_square_matrix>\n", argv[0]);
@@ -47,17 +30,21 @@ int main(int argc, char* argv[])
     clock_t begin, end;
     double time_spent;
 
-    begin = clock();
-    
+    /* measure monotonic time */
+    clock_gettime(CLOCK_MONOTONIC, & clock_mono_start); /* mark start time */
     mm(A, B, C);
+    clock_gettime(CLOCK_MONOTONIC, & clock_mono_end); /* mark the end time */
+    mono_diff = BILLION * (clock_mono_end.tv_sec - clock_mono_start.tv_sec) + clock_mono_end.tv_nsec - clock_mono_start.tv_nsec;
+    printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) mono_diff); /* now re-do this and measure CPU time */ /* the time spent sleeping will not count (but there is a bit of overhead */
     
-    end = clock();
+    /* measure cpu time */
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, & clock_cpu_start); /* mark start time */
+    mm(A, B, C);
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, & clock_cpu_end); /* mark the end time */
+    cpu_diff = BILLION * (clock_cpu_end.tv_sec - clock_cpu_start.tv_sec) + clock_cpu_end.tv_nsec - clock_cpu_start.tv_nsec;
+    printf("elapsed process CPU time = %llu nanoseconds\n", (long long unsigned int) cpu_diff);
 
  
-    
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    
-    printf("Wall Clock Time => Elapsed time: %.2lf seconds.\n", time_spent);
     
     for(i = 0; i < SIZE; i++)
         free((void *)A[i]);
