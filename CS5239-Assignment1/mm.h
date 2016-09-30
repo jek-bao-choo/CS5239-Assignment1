@@ -49,7 +49,7 @@ void mm(int **A, int **B, int **C)
     
     for(i = 0; i < SIZE; i++) {
         for(j = 0; j < SIZE; j++) {
-            C[i][j] = 0;
+            C[i][j] = 0;   
             for(k = 0; k < SIZE; k++) {
                 C[i][j] += A[i][k] * B[k][j];
             }
