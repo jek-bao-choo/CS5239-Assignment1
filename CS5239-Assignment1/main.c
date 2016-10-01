@@ -33,6 +33,8 @@ int main(int argc, char* argv[])
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, & clock_cpu_end); /* mark the end time */
     cpu_diff = BILLION * (clock_cpu_end.tv_sec - clock_cpu_start.tv_sec) + clock_cpu_end.tv_nsec - clock_cpu_start.tv_nsec;
     printf("elapsed process CPU time = %llu nanoseconds\n", (long long unsigned int) cpu_diff);
+    cpu_microseconds = cpu_diff / 1000 + (cpu_diff % 1000 >= 500); // round up halves
+    printf("elapsed process CPU time = %llu microseconds\n", (long long unsigned int) cpu_microseconds);
     printf("elapsed process CPU time = %llu seconds\n", (long long unsigned int) (clock_cpu_end.tv_sec - clock_cpu_start.tv_sec));
     
     
@@ -42,6 +44,8 @@ int main(int argc, char* argv[])
     clock_gettime(CLOCK_MONOTONIC, & clock_mono_end); /* mark the end time */
     mono_diff = BILLION * (clock_mono_end.tv_sec - clock_mono_start.tv_sec) + clock_mono_end.tv_nsec - clock_mono_start.tv_nsec;
     printf("elapsed time = %llu nanoseconds\n", (long long unsigned int) mono_diff);
+    mono_microseconds = mono_diff / 1000 + (mono_diff % 1000 >= 500); // round up halves
+    printf("elapsed time = %llu microseconds\n", (long long unsigned int) mono_microseconds); /* Display time in microseconds */
     printf("elapsed time = %llu seconds\n", (long long unsigned int) (clock_mono_end.tv_sec - clock_mono_start.tv_sec));
     
 
