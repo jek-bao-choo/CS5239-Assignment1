@@ -8,27 +8,27 @@
 #include <stdlib.h>
 #include <time.h>
 
-double SIZE, NTHREADS;
-double **A, **B, **C;
+float SIZE, NTHREADS;
+float **A, **B, **C;
 
-void init(double ***Aptr, double ***Bptr)
+void init(float ***Aptr, float ***Bptr)
 {
-    double    **A; // Define a local pointer to keep rest of the code intact
-    double    **B; // Define a local pointer to keep rest of the code intact
+    float    **A; // Define a local pointer to keep rest of the code intact
+    float    **B; // Define a local pointer to keep rest of the code intact
     
     int i, j;
     
-    A = (double**)malloc(SIZE * sizeof(double *));
+    A = (float**)malloc(SIZE * sizeof(float *));
     for(i = 0; i < SIZE; i++)
-        A[i] = malloc(SIZE * sizeof(double));
+        A[i] = malloc(SIZE * sizeof(float));
     
-    B = (double**)malloc(SIZE * sizeof(double *));
+    B = (float**)malloc(SIZE * sizeof(float *));
     for(i = 0; i < SIZE; i++)
-        B[i] = malloc(SIZE * sizeof(double));
+        B[i] = malloc(SIZE * sizeof(float));
     
-    C = (double**)malloc(SIZE * sizeof(double *));
+    C = (float**)malloc(SIZE * sizeof(float *));
     for(i = 0; i < SIZE; i++)
-        C[i] = malloc(SIZE * sizeof(double));
+        C[i] = malloc(SIZE * sizeof(float));
     
     srand(time(NULL));
     
@@ -43,7 +43,7 @@ void init(double ***Aptr, double ***Bptr)
     *Bptr = B;
 }
 
-void mm(double **A, double **B, double **C)
+void mm(float **A, float **B, float **C)
 {
     int i, j, k;
     
